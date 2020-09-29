@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PaymentTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CodeCoverageReport</a> &gt; <a href="index.source.html" class="el_package">ltu</a> &gt; <span class="el_source">PaymentTest.java</span></div><h1>PaymentTest.java</h1><pre class="source lang-java linenums">package ltu;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import jdk.jfr.Timestamp;
+
+<span class="fc" id="L9">public class PaymentTest {</span>
+<span class="fc" id="L10">    private final int FULL_LOAN = 7088;</span>
+<span class="fc" id="L11">    private final int HALF_LOAN = 3564;</span>
+<span class="fc" id="L12">    private final int ZERO_LOAN = 0;</span>
+<span class="fc" id="L13">    private final int FULL_SUBSIDY = 2816;</span>
+<span class="fc" id="L14">    private final int HALF_SUBSIDY = 1396;</span>
+<span class="fc" id="L15">    private final int ZERO_SUBSIDY = 0;</span>
+    // ---------ID101----------
+    @Test
+    public void ID101_under20() throws Exception {
+<span class="fc" id="L19">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L20">        int amount = ageTest.getMonthlyAmount(&quot;20150615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L21">        assertEquals(ZERO_LOAN, amount);</span>
+
+<span class="fc" id="L23">    }</span>
+    @Test
+    public void ID101_equals20() throws Exception {
+<span class="fc" id="L26">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L27">        int amount = ageTest.getMonthlyAmount(&quot;19960615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L28">        assertEquals(amount, FULL_LOAN+FULL_SUBSIDY);</span>
+<span class="fc" id="L29">    }</span>
+    @Test
+    public void ID101_over20() throws Exception {
+<span class="fc" id="L32">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L33">        int amount = ageTest.getMonthlyAmount(&quot;19900615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L34">        assertEquals(amount, FULL_LOAN+FULL_SUBSIDY);</span>
+<span class="fc" id="L35">    }</span>
+
+    // ---------ID102----------
+    @Test
+    public void ID102_ageUnder56_50y() throws Exception {
+<span class="fc" id="L40">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L41">        int amount = ageTest.getMonthlyAmount(&quot;19660615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L42">        assertEquals(amount, ZERO_LOAN+FULL_SUBSIDY);</span>
+<span class="fc" id="L43">    }</span>
+    @Test
+    public void ID102_ageUnder56_30y() throws Exception {
+<span class="fc" id="L46">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L47">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L48">        assertEquals(amount, FULL_LOAN+FULL_SUBSIDY);</span>
+<span class="fc" id="L49">    }</span>
+
+    @Test
+    public void ID102_ageEquals56() throws Exception {
+<span class="fc" id="L53">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L54">        int amount = ageTest.getMonthlyAmount(&quot;19601201-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L55">        assertEquals(amount, ZERO_LOAN+FULL_SUBSIDY);</span>
+<span class="fc" id="L56">    }</span>
+
+    @Test
+    public void ID102_ageOver56() throws Exception {
+<span class="fc" id="L60">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L61">        int amount = ageTest.getMonthlyAmount(&quot;19590615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L62">        assertEquals(ZERO_SUBSIDY, amount);</span>
+<span class="fc" id="L63">    }</span>
+
+    // ---------ID103----------
+    @Test
+    public void ID103_ageUnder47() throws Exception {
+<span class="fc" id="L68">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L69">        int amount = ageTest.getMonthlyAmount(&quot;19750615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L70">        assertEquals(FULL_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L71">    }</span>
+
+    @Test
+    public void ID103_ageEqualsOrOver47() throws Exception {
+<span class="fc" id="L75">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L76">        int amount = ageTest.getMonthlyAmount(&quot;19690615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L77">        assertEquals(ZERO_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L78">    }</span>
+
+    // ---------ID201----------
+    @Test
+    public void ID201_studyOverOrEqual50() throws Exception {
+<span class="fc" id="L83">        PaymentImpl studyRateTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L84">        int amount = studyRateTest.getMonthlyAmount(&quot;19860615-5441&quot;, 1, 70, 100);</span>
+<span class="fc" id="L85">        assertEquals(HALF_LOAN+HALF_SUBSIDY,amount);</span>
+<span class="fc" id="L86">    }</span>
+    
+    @Test
+    public void ID201_studyUnder50() throws Exception {
+<span class="fc" id="L90">        PaymentImpl studyRateTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L91">        int amount = studyRateTest.getMonthlyAmount(&quot;19860615-5441&quot;, 1, 30, 100);</span>
+<span class="fc" id="L92">        assertEquals(ZERO_LOAN+ZERO_SUBSIDY, amount);</span>
+<span class="fc" id="L93">    }</span>
+
+    // ---------ID202----------
+    @Test
+    public void ID202() throws Exception {
+<span class="fc" id="L98">        PaymentImpl studyRateTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L99">        int amount = studyRateTest.getMonthlyAmount(&quot;19860615-5441&quot;, 1, 80, 100);</span>
+<span class="fc" id="L100">        assertEquals(HALF_LOAN+HALF_SUBSIDY, amount); // 50% subsid.</span>
+<span class="fc" id="L101">    }</span>
+    @Test
+    public void ID203() throws Exception {
+<span class="fc" id="L104">        PaymentImpl studyRateTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L105">        int amount = studyRateTest.getMonthlyAmount(&quot;19860615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L106">        assertEquals(FULL_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L107">    }</span>
+    // ---------ID301----------
+    @Test
+    public void ID301_overMaxIncome() throws Exception {
+<span class="fc" id="L111">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L112">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 100000, 100, 100);</span>
+<span class="fc" id="L113">        assertEquals(ZERO_SUBSIDY+ZERO_LOAN, amount);</span>
+<span class="fc" id="L114">    }</span>
+    @Test
+    public void ID301_atMaxIncome() throws Exception {
+<span class="fc" id="L117">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L118">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 85813, 100, 100);</span>
+<span class="fc" id="L119">        assertEquals(FULL_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L120">    }</span>
+    @Test
+    public void ID301_underMaxIncome() throws Exception {
+<span class="fc" id="L123">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L124">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 70000, 100, 100);</span>
+<span class="fc" id="L125">        assertEquals(FULL_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L126">    }</span>
+
+    // ---------ID302----------
+    @Test
+    public void ID302_overMaxIncome() throws Exception {
+<span class="fc" id="L131">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L132">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 130000, 80, 100);</span>
+<span class="fc" id="L133">        assertEquals(ZERO_LOAN+ZERO_SUBSIDY, amount);</span>
+<span class="fc" id="L134">    }</span>
+    @Test
+    public void ID302_atMaxIncome() throws Exception {
+<span class="fc" id="L137">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L138">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 128722, 80, 100);</span>
+<span class="fc" id="L139">        assertEquals(HALF_LOAN+HALF_SUBSIDY, amount);</span>
+<span class="fc" id="L140">    }</span>
+    @Test
+    public void ID302_underMaxIncome() throws Exception {
+<span class="fc" id="L143">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L144">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 100000, 80, 100);</span>
+<span class="fc" id="L145">        assertEquals(HALF_LOAN+HALF_SUBSIDY, amount);</span>
+<span class="fc" id="L146">    }</span>
+
+    // ---------ID401----------
+
+    @Test
+    public void ID401_over50ComplRate() throws Exception {
+<span class="fc" id="L152">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L153">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 1, 100, 80);</span>
+<span class="fc" id="L154">        assertEquals(FULL_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L155">    }</span>
+    @Test
+    public void ID401_at50ComplRate() throws Exception {
+<span class="fc" id="L158">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L159">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 1, 100, 50);</span>
+<span class="fc" id="L160">        assertEquals(FULL_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L161">    }</span>
+    @Test
+    public void ID401_under50ComplRate() throws Exception {
+<span class="fc" id="L164">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L165">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 1, 100, 35);</span>
+<span class="fc" id="L166">        assertEquals(ZERO_LOAN+ZERO_SUBSIDY, amount);</span>
+<span class="fc" id="L167">    }</span>
+
+    // ---------ID501----------
+    @Test
+    public void ID501_fullTimeStudent_58y() throws Exception {
+<span class="fc" id="L172">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L173">        int amount = ageTest.getMonthlyAmount(&quot;19580615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L174">        assertEquals(ZERO_LOAN+ZERO_SUBSIDY, amount);</span>
+<span class="fc" id="L175">    }</span>
+    @Test
+    public void ID501_fullTimeStudent_56y() throws Exception {
+<span class="fc" id="L178">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L179">        int amount = ageTest.getMonthlyAmount(&quot;19600615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L180">        assertEquals(ZERO_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L181">    }</span>
+    @Test
+    public void ID501_fullTimeStudent_50y() throws Exception {
+<span class="fc" id="L184">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L185">        int amount = ageTest.getMonthlyAmount(&quot;19666615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L186">        assertEquals(ZERO_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L187">    }</span>
+    @Test
+    public void ID501_fullTimeStudent_47y() throws Exception {
+<span class="fc" id="L190">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L191">        int amount = ageTest.getMonthlyAmount(&quot;19690615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L192">        assertEquals(ZERO_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L193">    }</span>
+    @Test
+    public void ID501_fullTimeStudent_30y() throws Exception {
+<span class="fc" id="L196">        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L197">        int amount = ageTest.getMonthlyAmount(&quot;19860615-5441&quot;, 1, 100, 100);</span>
+<span class="fc" id="L198">        assertEquals(FULL_LOAN+FULL_SUBSIDY, amount);</span>
+<span class="fc" id="L199">    }</span>
+
+
+    // --------Id506----------
+    @Test
+    public void ID506_nextPaymentLastWeekDayOfMonth_mars() throws Exception {
+<span class="fc" id="L205">        PaymentImpl paymentTest = new PaymentImpl(new CalendarSpoof());</span>
+<span class="fc" id="L206">        String amount = paymentTest.getNextPaymentDay();</span>
+<span class="fc" id="L207">        assertEquals(&quot;20160331&quot;, amount);</span>
+<span class="fc" id="L208">    }</span>
+    @Test
+    public void ID506_nextPaymentLastWeekDayOfMonth_januari() throws Exception {
+<span class="fc" id="L211">        PaymentImpl paymentTest = new PaymentImpl(new CalendarSpoof(2016,0,5));</span>
+<span class="fc" id="L212">        String amount = paymentTest.getNextPaymentDay();</span>
+<span class="fc" id="L213">        assertEquals(&quot;20160129&quot;, amount);</span>
+
+<span class="fc" id="L215">    }</span>
+
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
