@@ -25,13 +25,13 @@ public class PaymentTest {
     public void ID101_equals20() throws Exception {
         PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());
         int amount = ageTest.getMonthlyAmount("19960615-5441", 1, 100, 100);
-        assertEquals(amount, FULL_LOAN+FULL_SUBSIDY);
+        assertEquals(FULL_LOAN+FULL_SUBSIDY,amount);
     }
     @Test
     public void ID101_over20() throws Exception {
         PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());
         int amount = ageTest.getMonthlyAmount("19900615-5441", 1, 100, 100);
-        assertEquals(amount, FULL_LOAN+FULL_SUBSIDY);
+        assertEquals(FULL_LOAN+FULL_SUBSIDY,amount);
     }
 
     // ---------ID102----------
@@ -39,20 +39,20 @@ public class PaymentTest {
     public void ID102_ageUnder56_50y() throws Exception {
         PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());
         int amount = ageTest.getMonthlyAmount("19660615-5441", 1, 100, 100);
-        assertEquals(amount, ZERO_LOAN+FULL_SUBSIDY);
+        assertEquals(ZERO_LOAN+FULL_SUBSIDY,amount);
     }
     @Test
     public void ID102_ageUnder56_30y() throws Exception {
         PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());
         int amount = ageTest.getMonthlyAmount("19860615-5441", 1, 100, 100);
-        assertEquals(amount, FULL_LOAN+FULL_SUBSIDY);
+        assertEquals(FULL_LOAN+FULL_SUBSIDY,amount);
     }
 
     @Test
     public void ID102_ageEquals56() throws Exception {
         PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());
         int amount = ageTest.getMonthlyAmount("19601201-5441", 1, 100, 100);
-        assertEquals(amount, ZERO_LOAN+FULL_SUBSIDY);
+        assertEquals(ZERO_LOAN+FULL_SUBSIDY,amount);
     }
 
     @Test
@@ -197,8 +197,39 @@ public class PaymentTest {
         int amount = ageTest.getMonthlyAmount("19860615-5441", 1, 100, 100);
         assertEquals(FULL_LOAN+FULL_SUBSIDY, amount);
     }
-
-
+    // -------ID503---------
+    @Test
+    public void ID503_80pTimeStudent_58y() throws Exception {
+        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());
+        int amount = ageTest.getMonthlyAmount("19580615-5441", 1, 80, 100);
+        assertEquals(ZERO_LOAN+ZERO_SUBSIDY, amount);
+    }
+    @Test
+    public void ID503_80pTimeStudent_56y() throws Exception {
+        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());
+        int amount = ageTest.getMonthlyAmount("19600615-5441", 1, 80, 100);
+        assertEquals(ZERO_LOAN+HALF_SUBSIDY, amount);
+    }
+    @Test
+    public void ID503_80pTimeStudent_50y() throws Exception {
+        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());
+        int amount = ageTest.getMonthlyAmount("19666615-5441", 1, 80, 100);
+        assertEquals(ZERO_LOAN+HALF_SUBSIDY, amount);
+    }
+    @Test
+    public void ID503_80pTimeStudent_47y() throws Exception {
+        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());
+        int amount = ageTest.getMonthlyAmount("19690615-5441", 1, 80, 100);
+        assertEquals(ZERO_LOAN+HALF_SUBSIDY, amount);
+    }
+    @Test
+    public void ID503_80pTimeStudent_30y() throws Exception {
+        PaymentImpl ageTest = new PaymentImpl(new CalendarSpoof());
+        int amount = ageTest.getMonthlyAmount("19860615-5441", 1, 80, 100);
+        assertEquals(HALF_LOAN+HALF_SUBSIDY, amount);
+    }
+    // --------Id505----------
+    
     // --------Id506----------
     @Test
     public void ID506_nextPaymentLastWeekDayOfMonth_mars() throws Exception {
